@@ -33,26 +33,25 @@ public class UserService {
     }
 
 
-    public Users loginUser(Request loginRequest)
-    {
+    public Users loginUser(Request loginRequest) {
         Optional<Users> user = userRepos.findByEmail(loginRequest.getEmail());
     
-        // Pehle ye line galat thi: if (user == null)
-        if (!user.isPresent()) {
-            System.out.println("User not found with email: " + loginRequest.getEmail());
-            return null;
+        // agar user hi nahi mila
+        if (user.isEmpty()) {
+            throw new RuntimeException("User not found");
         }
     
         Users userLogin = user.get();
     
+        // agar password match nahi hua
         if (!userLogin.getPassword().equals(loginRequest.getPassword())) {
-            System.out.println("Invalid password for email: " + loginRequest.getEmail());
-            return null;
+            throw new RuntimeException("Invalid password");
         }
     
-        System.out.println("User logged in successfully: " + userLogin.getEmail());
+        // sab sahi to user return karo
         return userLogin;
     }
+    
     
     public Boolean checkUserIfExistByEmail(Request loginRequest)
     {
