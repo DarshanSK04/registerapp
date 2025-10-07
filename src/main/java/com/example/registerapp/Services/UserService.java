@@ -34,22 +34,28 @@ public class UserService {
 
 
     public Users loginUser(Request loginRequest) {
-        Optional<Users> user = userRepos.findByEmail(loginRequest.getEmail());
+        try {
+            Optional<Users> user = userRepos.findByEmail(loginRequest.getEmail());
     
-        // agar user hi nahi mila
-        if (user.isEmpty()) {
-            throw new RuntimeException("User not found");
+            if (user.isEmpty()) {
+                System.out.println("❌ User not found: " + loginRequest.getEmail());
+                return null;
+            }
+    
+            Users existingUser = user.get();
+    
+            if (!existingUser.getPassword().equals(loginRequest.getPassword())) {
+                System.out.println("❌ Wrong password for: " + loginRequest.getEmail());
+                return null;
+            }
+    
+            System.out.println("✅ Login successful for: " + loginRequest.getEmail());
+            return existingUser;
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-    
-        Users userLogin = user.get();
-    
-        // agar password match nahi hua
-        if (!userLogin.getPassword().equals(loginRequest.getPassword())) {
-            throw new RuntimeException("Invalid password");
-        }
-    
-        // sab sahi to user return karo
-        return userLogin;
     }
     
     
