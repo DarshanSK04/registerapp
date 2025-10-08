@@ -22,6 +22,10 @@ import com.example.registerapp.UserRepository.UserRepos;
 
 
 @RestController
+@CrossOrigin(origins = {
+    "http://localhost:4200",
+    "https://expense-frontend-mrqp.onrender.com"
+})
 
 public class UserController {
     
@@ -38,9 +42,6 @@ public class UserController {
         return "App Is Running";
     }
     
-    
-    @CrossOrigin(origins = "*")
-
     @PostMapping("/adduser")
     public Users addUser(@RequestBody Users user)
     {

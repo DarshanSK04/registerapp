@@ -23,7 +23,11 @@ import com.example.registerapp.UserRepository.ExpenseRepos;
 
 @RestController
 @RequestMapping("/api/expenses")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {
+    "http://localhost:4200",
+    "https://expense-frontend-mrqp.onrender.com"
+})
+
 public class ExpensesController {
 
     @Autowired

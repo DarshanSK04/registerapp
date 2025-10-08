@@ -19,7 +19,11 @@ import com.example.registerapp.UserRepository.UserRepos;
 
 @RestController
 @RequestMapping("/api/sendOTP")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {
+    "http://localhost:4200",
+    "https://expense-frontend-mrqp.onrender.com"
+})
+
 public class OTPController {
 
     @Autowired
