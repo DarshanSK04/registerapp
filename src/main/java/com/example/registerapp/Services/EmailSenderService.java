@@ -28,10 +28,11 @@ public class EmailSenderService {
 
             Map<String, Object> body = Map.of(
                 "from", "Darshan <onboarding@resend.dev>",
-                "to", new String[]{to},
+                "to", new String[]{"darshankhairnar1972@gmail.com"},  // 👈 apna email
                 "subject", subject,
                 "text", text
             );
+            
 
             HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
             ResponseEntity<String> response = restTemplate.postForEntity(RESEND_URL, request, String.class);
