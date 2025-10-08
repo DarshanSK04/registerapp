@@ -1,26 +1,21 @@
 package com.example.registerapp.controller;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.registerapp.Services.EmailSenderService;
-import com.example.registerapp.UserData.OTPVerification;
 import com.example.registerapp.UserRepository.ExpenseRepos;
 import com.example.registerapp.UserRepository.OTPRepos;
 import com.example.registerapp.UserRepository.UserRepos;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/sendOTP")

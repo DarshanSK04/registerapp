@@ -3,18 +3,22 @@ package com.example.registerapp.controller;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import org.hibernate.event.spi.LockEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.registerapp.Services.ExpenseService;
 import com.example.registerapp.UserData.Expense;
 import com.example.registerapp.UserRepository.ExpenseRepos;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -51,17 +55,17 @@ public class ExpensesController {
     }
 
 
-    @GetMapping("/editExpense/{userId}")
-    public Expense returnExpaneToEdit(@PathVariable Long userId)
+    @GetMapping("/editExpense/{expenseId}")
+    public Expense returnExpaneToEdit(@PathVariable Long expenseId)
     {
-        Expense returnExpense=expenseRepos.findById(userId).orElseThrow(()->new RuntimeException("User Not Found"));
+        Expense returnExpense=expenseRepos.findById(expenseId).orElseThrow(()->new RuntimeException("User Not Found"));
         return returnExpense;
     }
 
 
-    @PutMapping("/updateExpense/{userId}")
-    public Expense editExpense(@PathVariable Long userId, @RequestBody Expense updatedExpense) {
-        Expense existing = expenseRepos.findById(userId)
+    @PutMapping("/updateExpense/{expenseId}")
+    public Expense editExpense(@PathVariable Long expenseId, @RequestBody Expense updatedExpense) {
+        Expense existing = expenseRepos.findById(expenseId)
             .orElseThrow(() -> new RuntimeException("Expense Not Found"));
 
         existing.setDescription(updatedExpense.getDescription());
