@@ -1,5 +1,6 @@
 package com.example.registerapp.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -106,18 +107,26 @@ public Users getUserByEmail(@PathVariable String email) {
 
 //Change password API..
 @PutMapping("/api/user/change-password")
-public ResponseEntity<?> changePassword(@RequestBody Map<String, String> payload) {
+public ResponseEntity<Map<String, String>> changePassword(@RequestBody Map<String, String> payload) {
+    Map<String, String> response = new HashMap<>();
+
     Users user = userRepos.findByEmail(payload.get("email"))
         .orElseThrow(() -> new RuntimeException("User not found"));
 
+    // ✅ Old password check
     if (!user.getPassword().equals(payload.get("oldPassword"))) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid old password");
+        response.put("message", "Old password incorrect ❌");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
+    // ✅ Update password
     user.setPassword(payload.get("newPassword"));
     userRepos.save(user);
-    return ResponseEntity.ok("Password changed successfully");
+
+    response.put("message", "Password updated successfully ✅");
+    return ResponseEntity.ok(response);
 }
+
 
 
 //Delete Account ...
