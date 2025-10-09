@@ -1,5 +1,6 @@
 package com.example.registerapp.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,50 @@ public ResponseEntity<?> loginUser(@RequestBody Request loginRequest) {
         return false;
 
     }
+
+
+    //User Acccount Details
+
+    //Account Details.
+    @GetMapping("/api/user/{email}")
+public Users getUserByEmail(@PathVariable String email) {
+    return userRepos.findByEmail(email)
+        .orElseThrow(() -> new RuntimeException("User not found"));
+}
+
+//Change password API..
+@PutMapping("/api/user/change-password")
+public ResponseEntity<?> changePassword(@RequestBody Map<String, String> payload) {
+    Users user = userRepos.findByEmail(payload.get("email"))
+        .orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (!user.getPassword().equals(payload.get("oldPassword"))) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid old password");
+    }
+
+    user.setPassword(payload.get("newPassword"));
+    userRepos.save(user);
+    return ResponseEntity.ok("Password changed successfully");
+}
+
+
+//Delete Account ...
+@PostMapping("/api/user/delete")
+public ResponseEntity<?> deleteUser(@RequestBody Map<String, String> payload) {
+    Users user = userRepos.findByEmail(payload.get("email"))
+        .orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (!user.getPassword().equals(payload.get("password"))) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect password");
+    }
+
+    userRepos.delete(user);
+    return ResponseEntity.ok("User deleted successfully");
+}
+
+
+
+                                                                                                                                                                                                                                                                 
 }
     
     
